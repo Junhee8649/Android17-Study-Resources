@@ -145,7 +145,7 @@ fun LemonTextAndImage(
                         .padding(16.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(R.dimen.padding_big.dp))
             Text(
                 text = stringResource(textLabelResourceId),
                 style = MaterialTheme.typography.bodyLarge

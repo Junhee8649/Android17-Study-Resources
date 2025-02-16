@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.github.junhee8649.androidstudy17.week1.ComposeQuadrantApp
+import com.github.junhee8649.androidstudy17.week3.AffirmationsApp.AffirmationsApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                ComposeQuadrantApp()
+                AffirmationsApp()
             }
         }
     }
