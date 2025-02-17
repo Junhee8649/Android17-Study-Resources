@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.github.junhee8649.androidstudy17.week1.ComposeQuadrantApp
-import com.github.junhee8649.androidstudy17.week3.AffirmationsApp.AffirmationsApp
+import com.github.junhee8649.androidstudy17.week3.WoofApp.WoofApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +18,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                AffirmationsApp()
+                WoofApp()
             }
         }
     }
