@@ -40,4 +40,9 @@
     <string name="about">About:</string>
     <string name="years_old">%d years old</string>
     <string name="expand_button_content_description">See more or less information about a dog.</string>
+    <string name="dessert_sold">Desserts sold</string>
+    <string name="total_revenue">Total Revenue</string>
+    <string name="share">Share</string>
+    <string name="share_text">I\'ve clicked %1$d Desserts for a total of $%2$d #AndroidDessertClicker</string>
+    <string name="sharing_not_available">Sharing Not Available</string>
 </resources>
