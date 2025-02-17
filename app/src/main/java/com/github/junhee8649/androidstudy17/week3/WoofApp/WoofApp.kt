@@ -2,10 +2,12 @@ package com.github.junhee8649.androidstudy17.week3.WoofApp
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -75,6 +77,13 @@ fun DogItem(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    // expanded 상태에 따라 타겟 색상을 설정합니다.
+    val color by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.tertiaryContainer
+        else MaterialTheme.colorScheme.primaryContainer,
+        label = "",
+    )
+
     Card(
         modifier = modifier
     ) {
@@ -86,6 +95,8 @@ fun DogItem(
                         stiffness = Spring.StiffnessMedium
                     )
                 )
+                // animateColorAsState로 계산된 color를 배경색으로 적용합니다.
+                .background(color = color)
         ) {
             Row(
                 modifier = Modifier
