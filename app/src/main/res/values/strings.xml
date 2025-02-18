@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AndroidStudy17</string>
     <string name="woof_app_name">Woof</string>
+    <string name="unscramble_app_name">Unscramble</string>
     <string name="lemon_empty_glass">Tap the empty glass to start again</string>
     <string name="empty_glass_content_description">Empty glass</string>
     <string name="lemonade_content_description">Glass of lemonade</string>
@@ -45,4 +46,15 @@
     <string name="share">Share</string>
     <string name="share_text">I\'ve clicked %1$d Desserts for a total of $%2$d #AndroidDessertClicker</string>
     <string name="sharing_not_available">Sharing Not Available</string>
+    <string name="instructions">Unscramble the word using all the letters.</string>
+    <string name="skip">Skip</string>
+    <string name="submit">Submit</string>
+    <string name="score">Score: %d</string>
+    <string name="word_count">%d/10</string>
+    <string name="enter_your_word">Enter your word</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_scored">"You scored: %d"</string>
+    <string name="exit">Exit</string>
+    <string name="play_again">Play Again</string>
+    <string name="wrong_guess">Wrong Guess!</string>
 </resources>

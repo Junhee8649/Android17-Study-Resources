@@ -1,4 +1,4 @@
-package com.github.junhee8649.androidstudy17.week4
+package com.github.junhee8649.androidstudy17.week4.Dessert
 
 //import android.content.ActivityNotFoundException
 //import android.content.Context
@@ -39,6 +39,7 @@ package com.github.junhee8649.androidstudy17.week4
 //import androidx.compose.runtime.Composable
 //import androidx.compose.runtime.getValue
 //import androidx.compose.runtime.mutableIntStateOf
+//import androidx.compose.runtime.remember
 //import androidx.compose.runtime.saveable.rememberSaveable
 //import androidx.compose.runtime.setValue
 //import androidx.compose.ui.Alignment
@@ -57,7 +58,7 @@ package com.github.junhee8649.androidstudy17.week4
 //import com.github.junhee8649.androidstudy17.week4.model.Dessert
 //
 //// Tag for logging
-//private const val TAG = "MainActivity"
+//private const val TAG = "MainActivity1"
 //
 //class MainActivity : ComponentActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +66,14 @@ package com.github.junhee8649.androidstudy17.week4
 //        super.onCreate(savedInstanceState)
 //        Log.d(TAG, "onCreate Called")
 //        setContent {
-//                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .statusBarsPadding(),
-//                ) {
-//                    DessertClickerApp(desserts = Datasource.dessertList)
-//                }
+//            // A surface container using the 'background' color from the theme
+//            Surface(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .statusBarsPadding(),
+//            ) {
+//                DessertClickerApp(desserts = Datasource.dessertList)
+//            }
 //        }
 //    }
 //
@@ -160,18 +161,29 @@ package com.github.junhee8649.androidstudy17.week4
 //private fun DessertClickerApp(
 //    desserts: List<Dessert>
 //) {
+//    var revenue by remember { mutableIntStateOf(0) }
+//    var dessertsSold by remember { mutableIntStateOf(0) }
 //
-//    var revenue by rememberSaveable { mutableIntStateOf(0) }
-//    var dessertsSold by rememberSaveable { mutableIntStateOf(0) }
+//    val currentDessertIndex by remember{ mutableIntStateOf(0) }
 //
-//    val currentDessertIndex by rememberSaveable { mutableIntStateOf(0) }
-//
-//    var currentDessertPrice by rememberSaveable {
+//    var currentDessertPrice by remember {
 //        mutableIntStateOf(desserts[currentDessertIndex].price)
 //    }
-//    var currentDessertImageId by rememberSaveable {
+//    var currentDessertImageId by remember {
 //        mutableIntStateOf(desserts[currentDessertIndex].imageId)
 //    }
+//
+////    var revenue by rememberSaveable { mutableIntStateOf(0) }
+////    var dessertsSold by rememberSaveable { mutableIntStateOf(0) }
+////
+////    val currentDessertIndex by rememberSaveable { mutableIntStateOf(0) }
+////
+////    var currentDessertPrice by rememberSaveable {
+////        mutableIntStateOf(desserts[currentDessertIndex].price)
+////    }
+////    var currentDessertImageId by rememberSaveable {
+////        mutableIntStateOf(desserts[currentDessertIndex].imageId)
+////    }
 //
 //    Scaffold(
 //        topBar = {

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.github.junhee8649.androidstudy17"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.github.junhee8649.androidstudy17"
@@ -54,7 +54,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    // 단위 테스트
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // 아이콘 사용
     implementation(libs.androidx.material.icons.extended)
+    // 뷰모델 사용
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 }
