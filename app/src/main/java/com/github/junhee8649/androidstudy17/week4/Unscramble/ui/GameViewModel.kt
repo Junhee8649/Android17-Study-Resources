@@ -21,11 +21,15 @@ class GameViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
+    // private set은 getter / setter가 자동 적용되는 Kotlin에서 setter를 private로 바꿔줌
+    // 즉, 어디에서든 읽을수는 있으나, 쓰는 것은 해당 변수가 선언된 클래스에서만 가능
     var userGuess by mutableStateOf("")
         private set
 
     // Set of words used in the game
+    // 게임 진행 로직에서만 사용되고 UI에 노출될 필요가 없으므로 UIState에서 만들지 않음
     private var usedWords: MutableSet<String> = mutableSetOf()
+    // 초기 단어가 ""라 필요 없고 pickRandom~함수가 호출될 때 실제 단어로 초기화 되니까 선언 시점을 미룬 것
     private lateinit var currentWord: String
 
     init {
@@ -37,6 +41,9 @@ class GameViewModel : ViewModel() {
      */
     fun resetGame() {
         usedWords.clear()
+        // MutableStateFlow의 값은 .value 속성을 통해 업데이트할 수 있음
+        // _uiState.value = GameUiState(...)를 호출하면,
+        // 이전에 저장되어 있던 상태 값들을 모두 버리고 새롭게 생성된 GameUiState 객체가 UI에 반영
         _uiState.value = GameUiState(currentScrambledWord = pickRandomWordAndShuffle())
     }
 
@@ -52,6 +59,7 @@ class GameViewModel : ViewModel() {
      * Increases the score accordingly.
      */
     fun checkUserGuess() {
+        // ignoreCase는 대소문자  무시 옵션
         if (userGuess.equals(currentWord, ignoreCase = true)) {
             // User's guess is correct, increase the score
             // and call updateGameState() to prepare the game for next round
@@ -60,6 +68,8 @@ class GameViewModel : ViewModel() {
         } else {
             // User's guess is wrong, show an error
             _uiState.update { currentState ->
+                // 사용자의 추측이 틀렸으면 isGuessedWordWrong을 true로 설정
+                // MutableStateFlow<T>. update()는 지정된 값을 사용하여 MutableStateFlow.value를 업데이트
                 currentState.copy(isGuessedWordWrong = true)
             }
         }

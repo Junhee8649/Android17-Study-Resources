@@ -59,10 +59,11 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
     ) {
 
         Text(
-            text = stringResource(R.string.app_name),
+            text = stringResource(R.string.unscramble_app_name),
             style = typography.titleLarge,
         )
         GameLayout(
+            //uiState 값이 변경될 때마다 gameUiState 값을 사용하여 구성 가능한 함수가 재구성됨
             onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
             wordCount = gameUiState.currentWordCount,
             userGuess = gameViewModel.userGuess,
@@ -168,6 +169,7 @@ fun GameLayout(
                 textAlign = TextAlign.Center,
                 style = typography.titleMedium
             )
+            // 입력칸
             OutlinedTextField(
                 value = userGuess,
                 singleLine = true,
@@ -188,9 +190,13 @@ fun GameLayout(
                 },
                 isError = isGuessWrong,
                 keyboardOptions = KeyboardOptions.Default.copy(
+                    // 소프트 키보드의 우측 하단 버튼에 "Done" 액션을 지정
+                    // 사용자가 입력을 마치고 "Done" 버튼을 누르면, 이 액션이 트리거됨
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
+                    // "Done" 버튼이 눌렸을 때 호출할 콜백 함수를 지정
+                    // 입력값 검증이나 다음 단계로 넘어가는 등의 처리를 할 수 있음
                     onDone = { onKeyboardDone() }
                 )
             )
