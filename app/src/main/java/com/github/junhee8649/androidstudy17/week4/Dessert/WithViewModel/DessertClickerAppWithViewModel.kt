@@ -1,4 +1,4 @@
-package com.github.junhee8649.androidstudy17.week4.Dessert
+package com.github.junhee8649.androidstudy17.week4.Dessert.WithViewModel
 
 //import android.content.ActivityNotFoundException
 //import android.content.Context
@@ -8,7 +8,6 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //import android.widget.Toast
 //import androidx.activity.ComponentActivity
 //import androidx.activity.compose.setContent
-//import androidx.activity.enableEdgeToEdge
 //import androidx.annotation.DrawableRes
 //import androidx.compose.foundation.Image
 //import androidx.compose.foundation.background
@@ -17,16 +16,9 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //import androidx.compose.foundation.layout.Box
 //import androidx.compose.foundation.layout.Column
 //import androidx.compose.foundation.layout.Row
-//import androidx.compose.foundation.layout.WindowInsets
-//import androidx.compose.foundation.layout.asPaddingValues
-//import androidx.compose.foundation.layout.calculateEndPadding
-//import androidx.compose.foundation.layout.calculateStartPadding
-//import androidx.compose.foundation.layout.fillMaxSize
 //import androidx.compose.foundation.layout.fillMaxWidth
 //import androidx.compose.foundation.layout.height
 //import androidx.compose.foundation.layout.padding
-//import androidx.compose.foundation.layout.safeDrawing
-//import androidx.compose.foundation.layout.statusBarsPadding
 //import androidx.compose.foundation.layout.width
 //import androidx.compose.material.icons.Icons
 //import androidx.compose.material.icons.filled.Share
@@ -34,45 +26,39 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //import androidx.compose.material3.IconButton
 //import androidx.compose.material3.MaterialTheme
 //import androidx.compose.material3.Scaffold
-//import androidx.compose.material3.Surface
 //import androidx.compose.material3.Text
 //import androidx.compose.runtime.Composable
+//import androidx.compose.runtime.collectAsState
 //import androidx.compose.runtime.getValue
-//import androidx.compose.runtime.mutableIntStateOf
-//import androidx.compose.runtime.remember
-//import androidx.compose.runtime.saveable.rememberSaveable
-//import androidx.compose.runtime.setValue
 //import androidx.compose.ui.Alignment
 //import androidx.compose.ui.Modifier
+//import androidx.compose.ui.graphics.Color
 //import androidx.compose.ui.layout.ContentScale
 //import androidx.compose.ui.platform.LocalContext
-//import androidx.compose.ui.platform.LocalLayoutDirection
-//import androidx.compose.ui.res.dimensionResource
 //import androidx.compose.ui.res.painterResource
 //import androidx.compose.ui.res.stringResource
 //import androidx.compose.ui.text.style.TextAlign
 //import androidx.compose.ui.tooling.preview.Preview
-//import androidx.core.content.ContextCompat
+//import androidx.compose.ui.unit.dp
+//import androidx.core.content.ContextCompat.startActivity
+//import androidx.lifecycle.viewmodel.compose.viewModel
 //import com.github.junhee8649.androidstudy17.R
-//import com.github.junhee8649.androidstudy17.week4.data.Datasource
-//import com.github.junhee8649.androidstudy17.week4.model.Dessert
+//import com.github.junhee8649.androidstudy17.ui.theme.AndroidStudy17Theme
+//import com.github.junhee8649.androidstudy17.week4.Dessert.WithViewModel.data.DessertUiState
+//import com.github.junhee8649.androidstudy17.week4.Dessert.WithViewModel.ui.DessertViewModel
 //
-//// Tag for logging
-//private const val TAG = "MainActivity1"
+//// tag for logging
+//private const val TAG = "MainActivity"
 //
 //class MainActivity : ComponentActivity() {
+//
 //    override fun onCreate(savedInstanceState: Bundle?) {
-//        enableEdgeToEdge()
 //        super.onCreate(savedInstanceState)
 //        Log.d(TAG, "onCreate Called")
+//
 //        setContent {
-//            // A surface container using the 'background' color from the theme
-//            Surface(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .statusBarsPadding(),
-//            ) {
-//                DessertClickerApp(desserts = Datasource.dessertList)
+//            AndroidStudy17Theme {
+//                DessertClickerAppWithViewModel()
 //            }
 //        }
 //    }
@@ -109,29 +95,6 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //}
 //
 ///**
-// * Determine which dessert to show.
-// */
-//fun determineDessertToShow(
-//    desserts: List<Dessert>,
-//    dessertsSold: Int
-//): Dessert {
-//    var dessertToShow = desserts.first()
-//    for (dessert in desserts) {
-//        if (dessertsSold >= dessert.startProductionAmount) {
-//            dessertToShow = dessert
-//        } else {
-//            // The list of desserts is sorted by startProductionAmount. As you sell more desserts,
-//            // you'll start producing more expensive desserts as determined by startProductionAmount
-//            // We know to break as soon as we see a dessert who's "startProductionAmount" is greater
-//            // than the amount sold.
-//            break
-//        }
-//    }
-//
-//    return dessertToShow
-//}
-//
-///**
 // * Share desserts sold information using ACTION_SEND intent
 // */
 //private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: Int, revenue: Int) {
@@ -147,7 +110,7 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //    val shareIntent = Intent.createChooser(sendIntent, null)
 //
 //    try {
-//        ContextCompat.startActivity(intentContext, shareIntent, null)
+//        startActivity(intentContext, shareIntent, null)
 //    } catch (e: ActivityNotFoundException) {
 //        Toast.makeText(
 //            intentContext,
@@ -157,97 +120,70 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //    }
 //}
 //
+// 미리보기나 테스트, 재사용성을 높이기 위해 파라미터를 달리하여 분리
+//// 상태 관리(ViewModel과의 연결)에 집중
 //@Composable
-//private fun DessertClickerApp(
-//    desserts: List<Dessert>
+//private fun DessertClickerAppWithViewModel(
+//    viewModel: DessertViewModel = viewModel()
 //) {
-//    var revenue by remember { mutableIntStateOf(0) }
-//    var dessertsSold by remember { mutableIntStateOf(0) }
-//
-//    val currentDessertIndex by remember{ mutableIntStateOf(0) }
-//
-//    var currentDessertPrice by remember {
-//        mutableIntStateOf(desserts[currentDessertIndex].price)
-//    }
-//    var currentDessertImageId by remember {
-//        mutableIntStateOf(desserts[currentDessertIndex].imageId)
-//    }
-//
-////    var revenue by rememberSaveable { mutableIntStateOf(0) }
-////    var dessertsSold by rememberSaveable { mutableIntStateOf(0) }
-////
-////    val currentDessertIndex by rememberSaveable { mutableIntStateOf(0) }
-////
-////    var currentDessertPrice by rememberSaveable {
-////        mutableIntStateOf(desserts[currentDessertIndex].price)
-////    }
-////    var currentDessertImageId by rememberSaveable {
-////        mutableIntStateOf(desserts[currentDessertIndex].imageId)
-////    }
-//
+//    val uiState by viewModel.dessertUiState.collectAsState()
+//    DessertClickerAppWithViewModel(
+//        uiState = uiState,
+//        onDessertClicked = viewModel::onDessertClicked
+//    )
+//}
+//// 순수 UI 구성에 집중
+//@Composable
+//private fun DessertClickerAppWithViewModel(
+//    uiState: DessertUiState,
+//    onDessertClicked: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
 //    Scaffold(
 //        topBar = {
 //            val intentContext = LocalContext.current
-//            val layoutDirection = LocalLayoutDirection.current
-//            DessertClickerAppBar(
+//            AppBar(
 //                onShareButtonClicked = {
 //                    shareSoldDessertsInformation(
 //                        intentContext = intentContext,
-//                        dessertsSold = dessertsSold,
-//                        revenue = revenue
+//                        dessertsSold = uiState.dessertsSold,
+//                        revenue = uiState.revenue
 //                    )
-//                },
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(
-//                        start = WindowInsets.safeDrawing.asPaddingValues()
-//                            .calculateStartPadding(layoutDirection),
-//                        end = WindowInsets.safeDrawing.asPaddingValues()
-//                            .calculateEndPadding(layoutDirection),
-//                    )
-//                    .background(MaterialTheme.colorScheme.primary)
+//                }
 //            )
 //        }
 //    ) { contentPadding ->
 //        DessertClickerScreen(
-//            revenue = revenue,
-//            dessertsSold = dessertsSold,
-//            dessertImageId = currentDessertImageId,
-//            onDessertClicked = {
-//
-//                // Update the revenue
-//                revenue += currentDessertPrice
-//                dessertsSold++
-//
-//                // Show the next dessert
-//                val dessertToShow = determineDessertToShow(desserts, dessertsSold)
-//                currentDessertImageId = dessertToShow.imageId
-//                currentDessertPrice = dessertToShow.price
-//            },
+//            revenue = uiState.revenue,
+//            dessertsSold = uiState.dessertsSold,
+//            dessertImageId = uiState.currentDessertImageId,
+//            onDessertClicked = onDessertClicked,
 //            modifier = Modifier.padding(contentPadding)
 //        )
 //    }
 //}
 //
 //@Composable
-//private fun DessertClickerAppBar(
+//private fun AppBar(
 //    onShareButtonClicked: () -> Unit,
 //    modifier: Modifier = Modifier
 //) {
 //    Row(
-//        modifier = modifier,
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .background(MaterialTheme.colorScheme.primary),
 //        horizontalArrangement = Arrangement.SpaceBetween,
 //        verticalAlignment = Alignment.CenterVertically,
 //    ) {
 //        Text(
 //            text = stringResource(R.string.app_name),
-//            modifier = Modifier.padding(start = dimensionResource(R.dimen.padding_medium)),
+//            modifier = Modifier.padding(start = 16.dp),
 //            color = MaterialTheme.colorScheme.onPrimary,
-//            style = MaterialTheme.typography.titleLarge,
+//            style = MaterialTheme.typography.bodyMedium,
 //        )
 //        IconButton(
 //            onClick = onShareButtonClicked,
-//            modifier = Modifier.padding(end = dimensionResource(R.dimen.padding_medium)),
+//            modifier = Modifier.padding(end = 16.dp),
 //        ) {
 //            Icon(
 //                imageVector = Icons.Filled.Share,
@@ -282,18 +218,14 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //                    painter = painterResource(dessertImageId),
 //                    contentDescription = null,
 //                    modifier = Modifier
-//                        .width(dimensionResource(R.dimen.image_size))
-//                        .height(dimensionResource(R.dimen.image_size))
+//                        .width(150.dp)
+//                        .height(150.dp)
 //                        .align(Alignment.Center)
 //                        .clickable { onDessertClicked() },
 //                    contentScale = ContentScale.Crop,
 //                )
 //            }
-//            TransactionInfo(
-//                revenue = revenue,
-//                dessertsSold = dessertsSold,
-//                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)
-//            )
+//            TransactionInfo(revenue = revenue, dessertsSold = dessertsSold)
 //        }
 //    }
 //}
@@ -304,38 +236,31 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //    dessertsSold: Int,
 //    modifier: Modifier = Modifier
 //) {
-//    Column(modifier = modifier) {
-//        DessertsSoldInfo(
-//            dessertsSold = dessertsSold,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(dimensionResource(R.dimen.padding_medium))
-//        )
-//        RevenueInfo(
-//            revenue = revenue,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(dimensionResource(R.dimen.padding_medium))
-//        )
+//    Column(
+//        modifier = modifier
+//            .background(Color.White),
+//    ) {
+//        DessertsSoldInfo(dessertsSold)
+//        RevenueInfo(revenue)
 //    }
 //}
 //
 //@Composable
 //private fun RevenueInfo(revenue: Int, modifier: Modifier = Modifier) {
 //    Row(
-//        modifier = modifier,
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .padding(16.dp),
 //        horizontalArrangement = Arrangement.SpaceBetween,
 //    ) {
 //        Text(
 //            text = stringResource(R.string.total_revenue),
-//            style = MaterialTheme.typography.headlineMedium,
-//            color = MaterialTheme.colorScheme.onSecondaryContainer
+//            style = MaterialTheme.typography.bodyLarge
 //        )
 //        Text(
 //            text = "$${revenue}",
 //            textAlign = TextAlign.Right,
-//            style = MaterialTheme.typography.headlineMedium,
-//            color = MaterialTheme.colorScheme.onSecondaryContainer
+//            style = MaterialTheme.typography.bodyLarge
 //        )
 //    }
 //}
@@ -343,24 +268,29 @@ package com.github.junhee8649.androidstudy17.week4.Dessert
 //@Composable
 //private fun DessertsSoldInfo(dessertsSold: Int, modifier: Modifier = Modifier) {
 //    Row(
-//        modifier = modifier,
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .padding(16.dp),
 //        horizontalArrangement = Arrangement.SpaceBetween,
 //    ) {
 //        Text(
 //            text = stringResource(R.string.dessert_sold),
-//            style = MaterialTheme.typography.titleLarge,
-//            color = MaterialTheme.colorScheme.onSecondaryContainer
+//            style = MaterialTheme.typography.bodyMedium
 //        )
 //        Text(
 //            text = dessertsSold.toString(),
-//            style = MaterialTheme.typography.titleLarge,
-//            color = MaterialTheme.colorScheme.onSecondaryContainer
+//            style = MaterialTheme.typography.bodyMedium
 //        )
 //    }
 //}
 //
 //@Preview
 //@Composable
-//fun MyDessertClickerAppPreview() {
-//    DessertClickerApp(listOf(Dessert(R.drawable.cupcake, 5, 0)))
+//fun MyDessertClickerAppWithViewModelPreview() {
+//    AndroidStudy17Theme  {
+//        DessertClickerAppWithViewModel(
+//            uiState = DessertUiState(),
+//            onDessertClicked = {}
+//        )
+//    }
 //}

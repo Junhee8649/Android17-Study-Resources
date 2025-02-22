@@ -1,7 +1,8 @@
-package com.github.junhee8649.androidstudy17.week4.Dessert.data
+package com.github.junhee8649.androidstudy17.week4.Dessert.WithViewModel.data
 
 import com.github.junhee8649.androidstudy17.R
-import com.github.junhee8649.androidstudy17.week4.Dessert.model.Dessert
+import com.github.junhee8649.androidstudy17.week4.Dessert.WithViewModel.model.Dessert
+
 
 object Datasource {
     val dessertList = listOf(

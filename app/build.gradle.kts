@@ -61,4 +61,6 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     // 뷰모델 사용
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // 네비게이션 사용
+    implementation(libs.androidx.navigation.compose)
 }

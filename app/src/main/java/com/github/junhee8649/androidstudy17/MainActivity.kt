@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.github.junhee8649.androidstudy17.ui.theme.AndroidStudy17Theme
-import com.github.junhee8649.androidstudy17.week4.Unscramble.ui.GameScreen
+import com.github.junhee8649.androidstudy17.week5.CupcakeApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    GameScreen()
+                    CupcakeApp()
                 }
             }
 
