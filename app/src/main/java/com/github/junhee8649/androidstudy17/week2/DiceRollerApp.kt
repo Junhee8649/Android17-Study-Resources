@@ -21,6 +21,9 @@ import com.github.junhee8649.androidstudy17.R
 @Preview
 @Composable
 fun DiceRollerApp() {
+    // fillMaxSize()로 전체 화면을 채운 후, wrapContentSize(Alignment.Center)를 적용하면,
+    // 내부의 Column이 자신의 내용(주사위 이미지와 버튼)만큼만 공간을 차지하며
+    // 그 공간이 전체 화면 중앙에 위치
     DiceWithButtonAndImage(modifier = Modifier
         .fillMaxSize()
         .wrapContentSize(Alignment.Center)
