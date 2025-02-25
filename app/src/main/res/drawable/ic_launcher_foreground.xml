@@ -1,30 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
-    <path
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+
+    <!-- 중앙 정렬을 위한 그룹 -->
+    <group
+        android:scaleX="0.55"
+        android:scaleY="0.55"
+        android:translateX="24.3"
+        android:translateY="24.3">
+
+        <!-- 안드로이드 로고 -->
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M54,25m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M34,25L34,55L74,55L74,25A20,20 0,0 0,34 25" />
+
+        <!-- 안드로이드 눈 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M44,20m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M64,20m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+        <!-- 안드로이드 안테나 - 더 크게 수정 -->
+        <path
+            android:strokeColor="#8BC34A"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M54,0L54,12" />
+        <path
+            android:strokeColor="#8BC34A"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M34,7L45,15" />
+        <path
+            android:strokeColor="#8BC34A"
+            android:strokeWidth="4"
+            android:strokeLineCap="round"
+            android:pathData="M74,7L63,15" />
+
+        <!-- 안드로이드 팔 -->
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M27,30L34,30L34,50L27,50Q24,50 24,47L24,33Q24,30 27,30Z" />
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M74,30L81,30Q84,30 84,33L84,47Q84,50 81,50L74,50L74,30Z" />
+
+        <!-- 안드로이드 다리 -->
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M44,55L54,55L54,65Q54,68 51,68L47,68Q44,68 44,65L44,55Z" />
+        <path
+            android:fillColor="#8BC34A"
+            android:pathData="M54,55L64,55L64,65Q64,68 61,68L57,68Q54,68 54,65L54,55Z" />
+
+        <!-- 책 스택 (중앙 정렬) -->
+        <path
+            android:fillColor="#A1887F"
+            android:pathData="M30,72L78,72Q80,72 80,74L80,80Q80,82 78,82L30,82Q28,82 28,80L28,74Q28,72 30,72Z" />
+
+        <path
+            android:fillColor="#5C6BC0"
+            android:pathData="M27,82L75,82Q77,82 77,84L77,90Q77,92 75,92L27,92Q25,92 25,90L25,84Q25,82 27,82Z" />
+
+        <path
+            android:fillColor="#FFB300"
+            android:pathData="M32,92L80,92Q82,92 82,94L82,100Q82,102 80,102L32,102Q30,102 30,100L30,94Q30,92 32,92Z" />
+
+        <path
+            android:fillColor="#EF5350"
+            android:pathData="M25,102L73,102Q75,102 75,104L75,110Q75,112 73,112L25,112Q23,112 23,110L23,104Q23,102 25,102Z" />
+    </group>
 </vector>
