@@ -8,6 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.github.junhee8649.androidstudy17.ui.theme.AndroidStudy17Theme
 import com.github.junhee8649.androidstudy17.week6.RaceTrackerApp
+import com.github.junhee8649.androidstudy17.week7.ui.MarsPhotosApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    RaceTrackerApp()
+                    MarsPhotosApp()
                 }
             }
 
