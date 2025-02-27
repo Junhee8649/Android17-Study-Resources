@@ -1,5 +1,6 @@
 package com.github.junhee8649.androidstudy17.week8.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepository
@@ -37,13 +38,17 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     private fun checkSavedToken() {
         viewModelScope.launch {
             try {
+                Log.d("TokenDebug", "ViewModel: 저장된 토큰 확인 시작")
                 val currentUser = userRepository.getCurrentUser()
                 if (currentUser != null) {
+                    Log.d("TokenDebug", "ViewModel: 유효한 토큰 발견, 자동 로그인 - 사용자: ${currentUser.username}")
                     _loginState.value = LoginState.Success(currentUser)
+                } else {
+                    Log.d("TokenDebug", "ViewModel: 토큰 없음 또는 유효하지 않음")
                 }
             } catch (e: Exception) {
+                Log.e("TokenDebug", "ViewModel: 토큰 확인 중 오류: ${e.message}")
                 // 토큰이 없거나, 만료되었거나, 유효하지 않은 경우
-                // 초기 상태를 유지하고 사용자에게 로그인 요청
             }
         }
     }

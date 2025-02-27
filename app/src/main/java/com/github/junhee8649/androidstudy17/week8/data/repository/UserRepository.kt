@@ -1,5 +1,6 @@
 package com.github.junhee8649.androidstudy17.week8.data.repository
 
+import android.util.Log
 import com.github.junhee8649.androidstudy17.week8.data.TokenManager
 import com.github.junhee8649.androidstudy17.week8.model.User
 import com.github.junhee8649.androidstudy17.week8.network.MockLoginService
@@ -25,8 +26,12 @@ class UserRepository(
             // 모의 API 호출
             val response = loginService.login(request)
 
+            // 로그 추가: 토큰 확인
+            Log.d("TokenDebug", "받은 토큰: ${response.token}")
+
             // 토큰 저장
             tokenManager.saveToken(response.token)
+            Log.d("TokenDebug", "토큰 저장 완료")
 
             // 사용자 정보 반환
             Result.success(
@@ -37,6 +42,7 @@ class UserRepository(
                 )
             )
         } catch (e: Exception) {
+            Log.e("TokenDebug", "로그인 실패: ${e.message}")
             // 에러 발생 시 실패 결과 반환
             Result.failure(e)
         }

@@ -1,6 +1,7 @@
 package com.github.junhee8649.androidstudy17.week8.data
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -28,18 +29,24 @@ class TokenManager(private val context: Context) {
      * @param token 서버에서 받은 인증 토큰
      */
     suspend fun saveToken(token: String) {
+        Log.d("TokenDebug", "TokenManager: 토큰 저장 시작")
         context.dataStore.edit { preferences ->
             preferences[TOKEN_KEY] = token
         }
+        Log.d("TokenDebug", "TokenManager: 토큰 저장 완료")
     }
 
     /**
      * 저장된 토큰을 Flow로 조회합니다.
      * @return 토큰 Flow (없으면 null)
      */
+
     fun getToken(): Flow<String?> {
+        Log.d("TokenDebug", "TokenManager: 토큰 조회 Flow 생성")
         return context.dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY]
+            val token = preferences[TOKEN_KEY]
+            Log.d("TokenDebug", "TokenManager: 토큰 조회 - ${token?.take(10)}...")
+            token
         }
     }
 

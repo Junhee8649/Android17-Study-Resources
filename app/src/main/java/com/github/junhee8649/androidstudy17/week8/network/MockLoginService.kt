@@ -1,5 +1,6 @@
 package com.github.junhee8649.androidstudy17.week8.network
 
+import android.util.Log
 import com.github.junhee8649.androidstudy17.week8.model.User
 import com.github.junhee8649.androidstudy17.week8.network.dto.LoginRequestDto
 import com.github.junhee8649.androidstudy17.week8.network.dto.LoginResponseDto
@@ -65,6 +66,8 @@ class MockLoginService {
         val now = Date()
         val expiryDate = Date(now.time + Constants.TOKEN_EXPIRATION_TIME)
 
+        Log.d("TokenDebug", "JWT 토큰 생성: 사용자=$username, 만료=${expiryDate}")
+
         return Jwts.builder()
             .setSubject(userId)
             .setIssuedAt(now)
@@ -79,6 +82,7 @@ class MockLoginService {
      * JWT 토큰 검증 및 파싱
      */
     fun validateToken(token: String): User? {
+        Log.d("TokenDebug", "JWT 토큰 검증 시작: ${token.take(10)}...")
         return try {
             val claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
@@ -90,6 +94,8 @@ class MockLoginService {
             val username = claims["username"] as String
             val email = claims["email"] as String
 
+            Log.d("TokenDebug", "JWT 토큰 검증 성공: 사용자=$username")
+
             User(
                 id = userId,
                 username = username,
@@ -97,6 +103,7 @@ class MockLoginService {
             )
         } catch (e: Exception) {
             // 토큰 검증 실패
+            Log.e("TokenDebug", "JWT 토큰 검증 실패: ${e.message}")
             null
         }
     }

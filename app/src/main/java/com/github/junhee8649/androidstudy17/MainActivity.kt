@@ -1,6 +1,7 @@
 package com.github.junhee8649.androidstudy17
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,8 @@ import com.github.junhee8649.androidstudy17.week8.ui.main.MainScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("TokenDebug", "MainActivity: 앱 시작")
 
         // 의존성 수동 생성 (의존성 주입 없이)
         val mockLoginService = MockLoginService()
