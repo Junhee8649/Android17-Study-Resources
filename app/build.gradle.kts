@@ -70,4 +70,12 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization.json)
+    // JWT
+    implementation (libs.jjwt.api)
+    runtimeOnly (libs.jjwt.impl)
+    runtimeOnly (libs.jjwt.jackson)
+    // 코루틴
+    implementation (libs.kotlinx.coroutines.android)
+    // DataStore
+    implementation (libs.androidx.datastore.preferences)
 }
