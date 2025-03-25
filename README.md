@@ -19,6 +19,12 @@
 - **Week 7**: 네트워크 통신 기초 (MarsPhotosApp with Retrofit)
 - **Week 8**: 데이터 저장 (Login App with DataStore)
 
+## 브랜치 안내
+
+- **main**: 모든 주차 학습 내용이 포함된 메인 브랜치
+- **AndroidLogin**: 안드로이드 권장 앱 아키텍처를 사용한 8주차 로그인 앱
+- **CleanLogin**: 클린 아키텍처를 적용한 8주차 로그인 앱
+
 ## 심화 학습 내용
 
 - 실제 API 서버 연동
