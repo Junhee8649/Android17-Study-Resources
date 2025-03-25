@@ -2,24 +2,24 @@ package com.github.junhee8649.androidstudy17.week8.data.repository
 
 import android.util.Log
 import com.github.junhee8649.androidstudy17.week8.data.local.TokenManager
+import com.github.junhee8649.androidstudy17.week8.data.model.User
 import com.github.junhee8649.androidstudy17.week8.data.remote.api.ApiService
 import com.github.junhee8649.androidstudy17.week8.data.remote.dto.LoginRequestDto
-import com.github.junhee8649.androidstudy17.week8.domain.model.User
-import com.github.junhee8649.androidstudy17.week8.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 /**
- * 사용자 관련 데이터 처리를 담당하는 Repository 구현체
+ * 사용자 인증 및 데이터를 관리하는 Repository
+ * 사용자 데이터의 단일 진실 공급원(Single Source of Truth) 역할
  */
-class UserRepositoryImpl(
+class UserRepository(
     private val apiService: ApiService,
     private val tokenManager: TokenManager
-) : UserRepository {
+) {
     /**
-     * 로그인 기능 수행 및 토큰 저장
+     * 학번과 비밀번호로 로그인
      */
-    override suspend fun login(studentId: String, password: String): Result<User> {
+    suspend fun login(studentId: String, password: String): Result<User> {
         return try {
             // 요청 DTO 생성
             val request = LoginRequestDto(studentId, password)
@@ -39,15 +39,14 @@ class UserRepositoryImpl(
             Result.success(User(studentId))
         } catch (e: Exception) {
             Log.e("TokenDebug", "로그인 실패: ${e.message}")
-            // 에러 발생 시 실패 결과 반환
             Result.failure(e)
         }
     }
 
     /**
-     * 저장된 토큰 및 학번 조회하여 사용자 정보 반환
+     * 현재 로그인된 사용자 정보 조회
      */
-    override suspend fun getCurrentUser(): User? {
+    suspend fun getCurrentUser(): User? {
         val token = tokenManager.getToken().first()
         val studentId = tokenManager.getStudentId().first()
 
@@ -62,14 +61,14 @@ class UserRepositoryImpl(
     /**
      * 로그아웃 (토큰 및 사용자 정보 삭제)
      */
-    override suspend fun logout() {
+    suspend fun logout() {
         tokenManager.clearAll()
     }
 
     /**
      * 학번 상태 관찰
      */
-    override fun observeStudentId(): Flow<String?> {
+    fun observeStudentId(): Flow<String?> {
         return tokenManager.getStudentId()
     }
 }

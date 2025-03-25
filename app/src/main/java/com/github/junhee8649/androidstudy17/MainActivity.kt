@@ -1,3 +1,4 @@
+// MainActivity.kt
 package com.github.junhee8649.androidstudy17
 
 import android.os.Bundle
@@ -16,12 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.github.junhee8649.androidstudy17.ui.theme.AndroidStudy17Theme
 import com.github.junhee8649.androidstudy17.week8.data.local.TokenManager
-import com.github.junhee8649.androidstudy17.week8.domain.repository.UserRepository
 import com.github.junhee8649.androidstudy17.week8.data.remote.RetrofitClient
-import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepositoryImpl
-import com.github.junhee8649.androidstudy17.week8.domain.usecase.GetCurrentUserUseCase
-import com.github.junhee8649.androidstudy17.week8.domain.usecase.LoginUseCase
-import com.github.junhee8649.androidstudy17.week8.domain.usecase.LogoutUseCase
+import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepository
 import com.github.junhee8649.androidstudy17.week8.ui.login.LoginScreen
 import com.github.junhee8649.androidstudy17.week8.ui.login.LoginViewModel
 import com.github.junhee8649.androidstudy17.week8.ui.main.MainScreen
@@ -38,23 +35,14 @@ class MainActivity : ComponentActivity() {
         // RetrofitClient 초기화 (AuthInterceptor 포함)
         RetrofitClient.initialize(applicationContext)
 
-        // 리포지토리 초기화
-        val userRepository = UserRepositoryImpl(
+        // Repository 초기화
+        val userRepository = UserRepository(
             RetrofitClient.apiService,
             tokenManager
         )
 
-        // 유스케이스 초기화
-        val loginUseCase = LoginUseCase(userRepository)
-        val getCurrentUserUseCase = GetCurrentUserUseCase(userRepository)
-        val logoutUseCase = LogoutUseCase(userRepository)
-
         // ViewModel 초기화
-        val loginViewModel = LoginViewModel(
-            loginUseCase,
-            getCurrentUserUseCase,
-            logoutUseCase
-        )
+        val loginViewModel = LoginViewModel(userRepository)
 
         setContent {
             AndroidStudy17Theme {
