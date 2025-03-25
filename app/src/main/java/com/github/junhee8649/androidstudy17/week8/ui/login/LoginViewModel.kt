@@ -3,8 +3,11 @@ package com.github.junhee8649.androidstudy17.week8.ui.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepository
-import com.github.junhee8649.androidstudy17.week8.model.User
+import com.github.junhee8649.androidstudy17.week8.domain.repository.UserRepository
+import com.github.junhee8649.androidstudy17.week8.domain.model.User
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.GetCurrentUserUseCase
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.LoginUseCase
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.LogoutUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +16,11 @@ import kotlinx.coroutines.launch
 /**
  * 로그인 화면의 ViewModel
  */
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class LoginViewModel(
+    private val loginUseCase: LoginUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val logoutUseCase: LogoutUseCase
+) : ViewModel() {
 
     // 로그인 상태를 나타내는 StateFlow
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Initial)
@@ -39,9 +46,9 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d("TokenDebug", "ViewModel: 저장된 토큰 확인 시작")
-                val currentUser = userRepository.getCurrentUser()
+                val currentUser = getCurrentUserUseCase()
                 if (currentUser != null) {
-                    Log.d("TokenDebug", "ViewModel: 유효한 토큰 발견, 자동 로그인 - 사용자: ${currentUser.username}")
+                    Log.d("TokenDebug", "ViewModel: 유효한 토큰 발견, 자동 로그인 - 사용자: ${currentUser.studentId}")
                     _loginState.value = LoginState.Success(currentUser)
                 } else {
                     Log.d("TokenDebug", "ViewModel: 토큰 없음 또는 유효하지 않음")
@@ -56,11 +63,11 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     /**
      * 로그인 함수
      */
-    fun login(username: String, password: String) {
+    fun login(studentId: String, password: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
 
-            val result = userRepository.login(username, password)
+            val result = loginUseCase(studentId, password)
 
             result.fold(
                 onSuccess = { user ->
@@ -78,7 +85,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
      */
     fun logout() {
         viewModelScope.launch {
-            userRepository.logout()
+            logoutUseCase()
             _loginState.value = LoginState.Initial
         }
     }

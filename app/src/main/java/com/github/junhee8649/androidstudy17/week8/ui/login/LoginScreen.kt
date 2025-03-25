@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
  * 로그인 화면 Compose UI
@@ -38,7 +37,7 @@ fun LoginScreen(
     val loginState by viewModel.loginState.collectAsState()
 
     // UI 상태 변수
-    var username by remember { mutableStateOf("") }
+    var studentId by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -47,7 +46,7 @@ fun LoginScreen(
         when (loginState) {
             is LoginViewModel.LoginState.Success -> {
                 val user = (loginState as LoginViewModel.LoginState.Success).user
-                onLoginSuccess(user.username)
+                onLoginSuccess(user.studentId)
             }
             is LoginViewModel.LoginState.Error -> {
                 errorMessage = (loginState as LoginViewModel.LoginState.Error).message
@@ -65,19 +64,19 @@ fun LoginScreen(
     ) {
         // 타이틀
         Text(
-            text = "로그인",
+            text = "인천대학교 로그인",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // 사용자 이름 입력
+        // 학번 입력
         OutlinedTextField(
-            value = username,
+            value = studentId,
             onValueChange = {
-                username = it
+                studentId = it
                 errorMessage = null // 입력 시 오류 메시지 초기화
             },
-            label = { Text("사용자 이름") },
+            label = { Text("학번") },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,10 +102,10 @@ fun LoginScreen(
         // 로그인 버튼
         Button(
             onClick = {
-                if (validateInputs(username, password)) {
-                    viewModel.login(username, password)
+                if (validateInputs(studentId, password)) {
+                    viewModel.login(studentId, password)
                 } else {
-                    errorMessage = "사용자 이름과 비밀번호를 입력해주세요."
+                    errorMessage = "학번과 비밀번호를 입력해주세요."
                 }
             },
             enabled = loginState !is LoginViewModel.LoginState.Loading,
@@ -116,14 +115,6 @@ fun LoginScreen(
         ) {
             Text("로그인")
         }
-
-        // 안내 텍스트 (테스트 계정)
-        Text(
-            text = "테스트 계정: test, admin, user (비밀번호는 아무거나)",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = 16.dp)
-        )
 
         // 로딩 상태 표시
         if (loginState is LoginViewModel.LoginState.Loading) {
@@ -146,6 +137,6 @@ fun LoginScreen(
 /**
  * 입력값 유효성 검사
  */
-private fun validateInputs(username: String, password: String): Boolean {
-    return username.isNotBlank() && password.isNotBlank()
+private fun validateInputs(studentId: String, password: String): Boolean {
+    return studentId.isNotBlank() && password.isNotBlank()
 }

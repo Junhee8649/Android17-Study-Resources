@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun MainScreen(
-    username: String,
+    studentId: String,
     onLogout: () -> Unit
 ) {
     Column(
@@ -40,7 +40,7 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${username}님 환영합니다!",
+                text = "${studentId}님 환영합니다!",
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -68,16 +68,16 @@ fun MainScreen(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "DataStore 특징",
+                        text = "JWT 인증 특징",
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    Text("• Flow를 통한 비동기 데이터 접근")
-                    Text("• 코루틴 기반의 일관된 API")
-                    Text("• 트랜잭션 처리로 데이터 안정성 보장")
-                    Text("• 타입 안전성 제공")
-                    Text("• SharedPreferences보다 적은 메모리 사용")
+                    Text("• 서버에 별도 요청 없이 로컬에서 인증 검증 가능")
+                    Text("• 토큰 내에 사용자 정보와 권한 정보 포함")
+                    Text("• DataStore에 안전하게 저장되어 앱 재시작 시에도 유지")
+                    Text("• 만료 시간 설정으로 보안 강화")
+                    Text("• 서버와 클라이언트 간 상태를 공유하지 않는 Stateless 인증")
                 }
             }
         }

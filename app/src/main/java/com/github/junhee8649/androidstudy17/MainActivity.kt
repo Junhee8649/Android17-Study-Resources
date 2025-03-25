@@ -15,9 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.github.junhee8649.androidstudy17.ui.theme.AndroidStudy17Theme
-import com.github.junhee8649.androidstudy17.week8.data.TokenManager
-import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepository
-import com.github.junhee8649.androidstudy17.week8.network.MockLoginService
+import com.github.junhee8649.androidstudy17.week8.data.local.TokenManager
+import com.github.junhee8649.androidstudy17.week8.domain.repository.UserRepository
+import com.github.junhee8649.androidstudy17.week8.data.remote.RetrofitClient
+import com.github.junhee8649.androidstudy17.week8.data.repository.UserRepositoryImpl
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.GetCurrentUserUseCase
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.LoginUseCase
+import com.github.junhee8649.androidstudy17.week8.domain.usecase.LogoutUseCase
 import com.github.junhee8649.androidstudy17.week8.ui.login.LoginScreen
 import com.github.junhee8649.androidstudy17.week8.ui.login.LoginViewModel
 import com.github.junhee8649.androidstudy17.week8.ui.main.MainScreen
@@ -28,14 +32,31 @@ class MainActivity : ComponentActivity() {
 
         Log.d("TokenDebug", "MainActivity: 앱 시작")
 
-        // 의존성 수동 생성 (의존성 주입 없이)
-        val mockLoginService = MockLoginService()
+        // TokenManager 초기화
         val tokenManager = TokenManager(applicationContext)
-        val userRepository = UserRepository(mockLoginService, tokenManager)
-        val loginViewModel = LoginViewModel(userRepository)
+
+        // RetrofitClient 초기화 (AuthInterceptor 포함)
+        RetrofitClient.initialize(applicationContext)
+
+        // 리포지토리 초기화
+        val userRepository = UserRepositoryImpl(
+            RetrofitClient.apiService,
+            tokenManager
+        )
+
+        // 유스케이스 초기화
+        val loginUseCase = LoginUseCase(userRepository)
+        val getCurrentUserUseCase = GetCurrentUserUseCase(userRepository)
+        val logoutUseCase = LogoutUseCase(userRepository)
+
+        // ViewModel 초기화
+        val loginViewModel = LoginViewModel(
+            loginUseCase,
+            getCurrentUserUseCase,
+            logoutUseCase
+        )
 
         setContent {
-            // A surface container using the 'background' color from the theme
             AndroidStudy17Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize()
@@ -43,7 +64,6 @@ class MainActivity : ComponentActivity() {
                     LoginApp(loginViewModel)
                 }
             }
-
         }
     }
 }
@@ -55,7 +75,7 @@ class MainActivity : ComponentActivity() {
 fun LoginApp(loginViewModel: LoginViewModel) {
     // 로그인 상태 관리
     var isLoggedIn by remember { mutableStateOf(false) }
-    var username by remember { mutableStateOf("") }
+    var studentId by remember { mutableStateOf("") }
 
     // 로그인 상태 관찰
     val loginState by loginViewModel.loginState.collectAsState()
@@ -64,7 +84,7 @@ fun LoginApp(loginViewModel: LoginViewModel) {
     LaunchedEffect(loginState) {
         if (loginState is LoginViewModel.LoginState.Success) {
             val user = (loginState as LoginViewModel.LoginState.Success).user
-            username = user.username
+            studentId = user.studentId
             isLoggedIn = true
         } else {
             isLoggedIn = false
@@ -74,7 +94,7 @@ fun LoginApp(loginViewModel: LoginViewModel) {
     // 화면 전환 처리
     if (isLoggedIn) {
         MainScreen(
-            username = username,
+            studentId = studentId,
             onLogout = {
                 loginViewModel.logout()
             }
@@ -82,8 +102,8 @@ fun LoginApp(loginViewModel: LoginViewModel) {
     } else {
         LoginScreen(
             viewModel = loginViewModel,
-            onLoginSuccess = { loggedInUsername ->
-                username = loggedInUsername
+            onLoginSuccess = { loggedInStudentId ->
+                studentId = loggedInStudentId
                 isLoggedIn = true
             }
         )
