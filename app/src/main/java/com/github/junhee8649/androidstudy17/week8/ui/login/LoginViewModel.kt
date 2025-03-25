@@ -3,7 +3,6 @@ package com.github.junhee8649.androidstudy17.week8.ui.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.junhee8649.androidstudy17.week8.domain.repository.UserRepository
 import com.github.junhee8649.androidstudy17.week8.domain.model.User
 import com.github.junhee8649.androidstudy17.week8.domain.usecase.GetCurrentUserUseCase
 import com.github.junhee8649.androidstudy17.week8.domain.usecase.LoginUseCase
